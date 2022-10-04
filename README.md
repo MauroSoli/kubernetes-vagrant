@@ -14,12 +14,11 @@ You can specify the number of desired nodes modifying some variables on the firs
 >or
 >https://phoenixnap.com/kb/kubernetes-ssl-certificates
 
-<br/>
 
 ---
 
 ## Prerequisites
-You need Vagrant software https://www.vagrantup.com/ and almost 10GB of RAM.
+You need Vagrant software https://www.vagrantup.com/ and almost 10GB of RAM. <br/>
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 
