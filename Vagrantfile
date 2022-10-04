@@ -15,6 +15,15 @@ BALANCER_IP_START = 15
 TOKEN = "9vr73a.a8uxfaju879qwdjv" # first token controlplane
 CERT_KEY = "8d277ccc50a612b5de3b758f47181a09a8270ca2f1c8716090562f08fbcab286" # cert key for add 
 
+BALANCER_CPU = 2
+BALANCER_RAM = 1024
+MASTER_CPU   = 2
+MASTER_RAM   = 2048
+WORKER_CPU   = 2
+WORKER_RAM   = 1024
+ETCD_CPU     = 2
+ETCD_RAM     = 1024
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -68,14 +77,14 @@ Vagrant.configure("2") do |config|
         libvirt.driver = "kvm"
         libvirt.connect_via_ssh = false
         libvirt.username = "linux"
-        libvirt.memory = 1024
-        libvirt.cpus = 2
+        libvirt.memory = BALANCER_RAM
+        libvirt.cpus = BALANCER_CPU
     end
     # VirtualBox section
     node.vm.provider "virtualbox" do |vb|
         vb.name = "kubebalancer01"
-        vb.memory = 1024
-        vb.cpus = 2
+        vb.memory = BALANCER_RAM
+        vb.cpus = BALANCER_CPU
     end
     node.vm.hostname = "kubebalancer01"
     node.vm.network :private_network, ip: IP_NW + "#{BALANCER_IP_START}"
@@ -98,14 +107,14 @@ Vagrant.configure("2") do |config|
             libvirt.driver = "kvm"
             libvirt.connect_via_ssh = false
             libvirt.username = "linux"
-            libvirt.memory = 2048
-            libvirt.cpus = 2
+            libvirt.memory = MASTER_RAM
+            libvirt.cpus = MASTER_CPU
         end
         # VirtualBox section
         node.vm.provider "virtualbox" do |vb|
             vb.name = "kubemaster0#{i}"
-            vb.memory = 2048
-            vb.cpus = 2
+            vb.memory = MASTER_RAM
+            vb.cpus = MASTER_CPU
         end
         node.vm.hostname = "kubemaster0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
@@ -132,14 +141,14 @@ Vagrant.configure("2") do |config|
             libvirt.driver = "kvm"
             libvirt.connect_via_ssh = false
             libvirt.username = "linux"
-            libvirt.memory = 1024
-            libvirt.cpus = 2
+            libvirt.memory = WORKER_RAM
+            libvirt.cpus = WORKER_CPU
         end
         # VirtualBox Section
         node.vm.provider "virtualbox" do |vb|
             vb.name = "kubenode0#{i}"
-            vb.memory = 2048
-            vb.cpus = 2
+            vb.memory = WORKER_RAM
+            vb.cpus = WORKER_CPU
         end
         node.vm.hostname = "kubeworker0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
@@ -166,14 +175,14 @@ Vagrant.configure("2") do |config|
             libvirt.driver = "kvm"
             libvirt.connect_via_ssh = false
             libvirt.username = "linux"
-            libvirt.memory = 1024
-            libvirt.cpus = 2
+            libvirt.memory = ETCD_RAM
+            libvirt.cpus = ETCD_CPU
         end
         # VirtualBox Section
         node.vm.provider "virtualbox" do |vb|
             vb.name = "etcdnode0#{i}"
-            vb.memory = 1024
-            vb.cpus = 2
+            vb.memory = ETCD_RAM
+            vb.cpus = ETCD_CPU
         end
         node.vm.hostname = "etcdnode0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
