@@ -1,6 +1,6 @@
 # Kubernetes provisioning with Vagrant
 
-The goal of this project is provisioning an Kubernetes Cluster, following all the best practies specified in kubernetes.io docs (almost 2 master node, 2 worker node and 3 external etcd cluster).
+The goal of this project is provisioning an Kubernetes Cluster, following all the best practies specified in kubernetes.io docs (at least 2 master node, 2 worker node and 3 external etcd cluster).
 
 <br/>
 
@@ -18,11 +18,10 @@ You can specify the number of desired nodes modifying some variables on the firs
 ---
 
 ## Prerequisites
-You need Vagrant software https://www.vagrantup.com/ and almost 10GB of RAM. <br/>
+You need Vagrant software https://www.vagrantup.com/ and 
+at least 10GB of RAM. <br/>
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
-
-<br/>
 
 ---
 
