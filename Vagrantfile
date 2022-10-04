@@ -150,6 +150,10 @@ Vagrant.configure("2") do |config|
         node.vm.provision "setup-container-daemon", :type => "shell", :path => "rhel/setup_container_deamon.sh"
         node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
         node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
+        # Only WorkerNode
+        node.vm.provision "setup-k8s-workernode", :type => "shell", :path => "rhel/setup_k8s_workernode.sh" do |s|
+          s.args = [TOKEN, CERT_KEY]
+        end
     end
   end
   
