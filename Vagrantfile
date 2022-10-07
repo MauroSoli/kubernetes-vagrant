@@ -68,7 +68,6 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-
   # Provision Load balancer
   config.vm.define "kubebalancer01" do |node|
     # KVM Section
@@ -76,9 +75,21 @@ Vagrant.configure("2") do |config|
         libvirt.default_prefix = ""
         libvirt.driver = "kvm"
         libvirt.connect_via_ssh = false
-        libvirt.username = "linux"
+        ##libvirt.username = "linux"
         libvirt.memory = BALANCER_RAM
         libvirt.cpus = BALANCER_CPU
+    end
+    # Hyper-v section
+    node.vm.provider "hyperv" do |hv|
+      hv.vmname = "kubebalancer01"
+      hv.maxmemory = BALANCER_RAM
+      hv.cpus = BALANCER_CPU
+    end
+    # VMware section
+    node.vm.provider "vmware_desktop" do |hv|
+      hv.name = "kubebalancer01"
+      hv.memory = BALANCER_RAM
+      hv.cpus = BALANCER_CPU
     end
     # VirtualBox section
     node.vm.provider "virtualbox" do |vb|
@@ -102,18 +113,30 @@ Vagrant.configure("2") do |config|
     config.vm.define "etcdnode0#{i}" do |node|
         # KVM Section
         node.vm.provider "libvirt" do |libvirt|
-            libvirt.default_prefix = ""
-            libvirt.driver = "kvm"
-            libvirt.connect_via_ssh = false
-            libvirt.username = "linux"
-            libvirt.memory = ETCD_RAM
-            libvirt.cpus = ETCD_CPU
+          libvirt.default_prefix = ""
+          libvirt.driver = "kvm"
+          libvirt.connect_via_ssh = false
+          #libvirt.username = "linux"
+          libvirt.memory = ETCD_RAM
+          libvirt.cpus = ETCD_CPU
+        end
+        # Hyper-v section
+        node.vm.provider "hyperv" do |hv|
+          hv.vmname = "etcdnode0#{i}"
+          hv.maxmemory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
+        end
+        # VMware section
+        node.vm.provider "vmware_desktop" do |hv|
+          hv.name = "etcdnode0#{i}"
+          hv.memory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
         end
         # VirtualBox Section
         node.vm.provider "virtualbox" do |vb|
-            vb.name = "etcdnode0#{i}"
-            vb.memory = ETCD_RAM
-            vb.cpus = ETCD_CPU
+          vb.name = "etcdnode0#{i}"
+          vb.memory = ETCD_RAM
+          vb.cpus = ETCD_CPU
         end
         node.vm.hostname = "etcdnode0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
@@ -136,18 +159,30 @@ Vagrant.configure("2") do |config|
       config.vm.define "kubemaster0#{i}" do |node|
         # KVM Section
         node.vm.provider "libvirt" do |libvirt|
-            libvirt.default_prefix = ""
-            libvirt.driver = "kvm"
-            libvirt.connect_via_ssh = false
-            libvirt.username = "linux"
-            libvirt.memory = MASTER_RAM
-            libvirt.cpus = MASTER_CPU
+          libvirt.default_prefix = ""
+          libvirt.driver = "kvm"
+          libvirt.connect_via_ssh = false
+          #libvirt.username = "linux"
+          libvirt.memory = MASTER_RAM
+          libvirt.cpus = MASTER_CPU
+        end
+        # Hyper-v section
+        node.vm.provider "hyperv" do |hv|
+          hv.vmname = "kubemaster0#{i}"
+          hv.maxmemory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
+        end
+        # VMware section
+        node.vm.provider "vmware_desktop" do |hv|
+          hv.name = "kubemaster0#{i}"
+          hv.memory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
         end
         # VirtualBox section
         node.vm.provider "virtualbox" do |vb|
-            vb.name = "kubemaster0#{i}"
-            vb.memory = MASTER_RAM
-            vb.cpus = MASTER_CPU
+          vb.name = "kubemaster0#{i}"
+          vb.memory = MASTER_RAM
+          vb.cpus = MASTER_CPU
         end
         node.vm.hostname = "kubemaster0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
@@ -170,18 +205,30 @@ Vagrant.configure("2") do |config|
     config.vm.define "kubeworker0#{i}" do |node|
         # KVM Section
         node.vm.provider "libvirt" do |libvirt|
-            libvirt.default_prefix = ""
-            libvirt.driver = "kvm"
-            libvirt.connect_via_ssh = false
-            libvirt.username = "linux"
-            libvirt.memory = WORKER_RAM
-            libvirt.cpus = WORKER_CPU
+          libvirt.default_prefix = ""
+          libvirt.driver = "kvm"
+          libvirt.connect_via_ssh = false
+          #libvirt.username = "linux"
+          libvirt.memory = WORKER_RAM
+          libvirt.cpus = WORKER_CPU
+        end
+        # Hyper-v section
+        node.vm.provider "hyperv" do |hv|
+          hv.vmname = "kubenode0#{i}"
+          hv.maxmemory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
+        end
+        # VMware section
+        node.vm.provider "vmware_desktop" do |hv|
+          hv.name = "kubenode0#{i}"
+          hv.memory = BALANCER_RAM
+          hv.cpus = BALANCER_CPU
         end
         # VirtualBox Section
         node.vm.provider "virtualbox" do |vb|
-            vb.name = "kubenode0#{i}"
-            vb.memory = WORKER_RAM
-            vb.cpus = WORKER_CPU
+          vb.name = "kubenode0#{i}"
+          vb.memory = WORKER_RAM
+          vb.cpus = WORKER_CPU
         end
         node.vm.hostname = "kubeworker0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
