@@ -1,10 +1,20 @@
+#!/bin/bash
+
 TOKEN="$1"
 CERT_KEY="$2"
 
-#####To DELETE
-#IP_NW="192.168.56."
-#TOKEN="9vr73a.a8uxyaju799qwdjv"
-##############
+# At least one master node must running before running kubeadm join
+while true
+do
+    echo -en "\r$(hostname): Waiting for first master node."
+    sleep 0.5
+    echo -en "\r$(hostname): Waiting for first master node.."
+    sleep 0.5
+    curlResult="$(curl -s -k --connect-timeout 2 https://kubebalancer01:6443)"
+    if [[ "$curlResult" =~ "apiVersion" ]]; then break; fi
+    echo -en "\r$(hostname): Waiting for first master node..."
+    sleep 0.5
+done
 
 # Calculation ca hash need for --discovery-token-ca-cert-hash
 CaHASH="$(openssl x509 -in /vagrant/certificates/ca.crt -noout -pubkey | \

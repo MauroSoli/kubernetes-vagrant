@@ -1,3 +1,4 @@
+#!/bin/bash
 # Kubernetes Docs: https://kubernetes.io/docs/setup/production-environment/container-runtimes/
 
 # Config IPtables forward
@@ -19,18 +20,20 @@ EOF
 # Apply sysctl params without reboot
 sudo sysctl --system
 
+# cri-o installation
+export VERSION=1.21
+curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo
+curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/CentOS_8/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo
+yum install -y cri-o
+
+sudo systemctl enable --now cri-o
+
 ## containerd installation
 #sudo yum install -y yum-utils
 #sudo yum-config-manager \
 #   --add-repo \
 #   https://download.docker.com/linux/centos/docker-ce.repo
 #sudo yum install -y containerd.io
-
-# cri-o installation
-export VERSION=1.21
-curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo
-curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/CentOS_8/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo
-yum install -y cri-o
 
 ## config.toml configuration
 #sudo sed -E 's,\"cri\",,g' -i /etc/containerd/config.toml
@@ -41,4 +44,4 @@ yum install -y cri-o
 #  SystemdCgroup = true
 #EOF
 
-sudo systemctl enable --now cri-o
+

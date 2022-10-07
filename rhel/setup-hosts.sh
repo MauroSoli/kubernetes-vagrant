@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+IP_NW=$1
+
 # Remove hostname on hosts file
 sudo awk -v HOSTNAME="$(hostname)" -i inplace  \
 '{
@@ -27,9 +29,9 @@ ${1}27 kubeworker06
 ${1}28 kubeworker07
 ${1}29 kubeworker08
 
-${1}12 etcdnode01
-${1}13 etcdnode02
-${1}14 etcdnode03
+${1}11 etcdnode01
+${1}12 etcdnode02
+${1}13 etcdnode03
 ${1}15 kubebalancer01 lb
 
 ${1}15 kubebalancer01
@@ -46,7 +48,7 @@ sed -e 's,SELINUX=enforcing,SELINUX=permissive,g' -i /etc/selinux/config
 systemctl disable --now firewalld
 
 # add network to environment
-echo 'IP_NW="192.168.56."' | sudo tee -a /etc/environment
+echo IP_NW="$IP_NW" | sudo tee -a /etc/environment
 source /etc/environment
 
 # Install wget

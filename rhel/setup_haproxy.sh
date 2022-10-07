@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Load balancer installation
 yum install -y haproxy
 

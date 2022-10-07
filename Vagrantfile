@@ -5,15 +5,15 @@
 # If this number is changed, remember to update setup-hosts.sh script with the new hosts IP details in /etc/hosts of each VM.
 NUM_MASTER_NODE = 2
 NUM_WORKER_NODE = 2
-NUM_ETCD_NODE = 3
+NUM_ETCD_NODE = 3 # Currently it cannot be changed
 
-IP_NW = "192.168.56." # Change setup-hosts.sh if change this value
+IP_NW = "192.168.56."
 MASTER_IP_START = 1
 NODE_IP_START = 20
 ETCD_IP_START = 10
 BALANCER_IP_START = 15
 TOKEN = "9vr73a.a8uxfaju879qwdjv" # first token controlplane
-CERT_KEY = "8d277ccc50a612b5de3b758f47181a09a8270ca2f1c8716090562f08fbcab286" # cert key for add 
+CERT_KEY = "8d277ccc50a612b5de3b758f47181a09a8270ca2f1c8716090562f08fbcab286" # random 64 string 
 
 BALANCER_CPU = 2
 BALANCER_RAM = 1024
@@ -97,6 +97,39 @@ Vagrant.configure("2") do |config|
     node.vm.provision "setup-haproxy", type: "shell", :path => "rhel/setup_haproxy.sh"
   end
 
+  # Provision ETCD Nodes
+  (1..NUM_ETCD_NODE).each do |i|
+    config.vm.define "etcdnode0#{i}" do |node|
+        # KVM Section
+        node.vm.provider "libvirt" do |libvirt|
+            libvirt.default_prefix = ""
+            libvirt.driver = "kvm"
+            libvirt.connect_via_ssh = false
+            libvirt.username = "linux"
+            libvirt.memory = ETCD_RAM
+            libvirt.cpus = ETCD_CPU
+        end
+        # VirtualBox Section
+        node.vm.provider "virtualbox" do |vb|
+            vb.name = "etcdnode0#{i}"
+            vb.memory = ETCD_RAM
+            vb.cpus = ETCD_CPU
+        end
+        node.vm.hostname = "etcdnode0#{i}"
+        node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
+        node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+        node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
+          s.args = [IP_NW]
+        end
+        node.vm.provision "setup-container-daemon", :type => "shell", :path => "rhel/setup_container_deamon.sh"
+        node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
+        node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
+        # Only ETCDNode
+        node.vm.provision "setup-etcd", :type => "shell", :path => "rhel/setup_etcd.sh" do |s|
+          s.args = [IP_NW, ETCD_IP_START]
+        end
+    end
+  end
 
   # Provision Master Nodes
   (1..NUM_MASTER_NODE).each do |i|
@@ -165,34 +198,4 @@ Vagrant.configure("2") do |config|
         end
     end
   end
-  
-  # Provision ETCD Nodes
-  (1..NUM_ETCD_NODE).each do |i|
-    config.vm.define "etcdnode0#{i}" do |node|
-        # KVM Section
-        node.vm.provider "libvirt" do |libvirt|
-            libvirt.default_prefix = ""
-            libvirt.driver = "kvm"
-            libvirt.connect_via_ssh = false
-            libvirt.username = "linux"
-            libvirt.memory = ETCD_RAM
-            libvirt.cpus = ETCD_CPU
-        end
-        # VirtualBox Section
-        node.vm.provider "virtualbox" do |vb|
-            vb.name = "etcdnode0#{i}"
-            vb.memory = ETCD_RAM
-            vb.cpus = ETCD_CPU
-        end
-        node.vm.hostname = "etcdnode0#{i}"
-        node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
-                node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
-        node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
-          #s.args = ["enp0s8"]
-        end
-        node.vm.provision "setup-containerd", :type => "shell", :path => "rhel/containerd_install.sh"
-        node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
-    end
-  end
-  
 end

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Kubernetes Docs: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 # Disable swap
@@ -24,6 +26,8 @@ apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 cgroupDriver: systemd
 EOF
+
+# Kubelet systemd config
 sudo sed -e 's,ExecStart=/usr/bin/kubelet,ExecStart=/usr/bin/kubelet --config /var/lib/kubelet/config.yaml,g' \
          -i /usr/lib/systemd/system/kubelet.service
 
