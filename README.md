@@ -47,7 +47,7 @@ ETCD_RAM     = 1024
 1. Vagrant software https://www.vagrantup.com/
 1. At least 10GB of RAM (using default variables value).
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-1. An hypervisor to choise from KVM, Hyper-v or VirtualBox (Using KVM or Hyper-v for better performance).
+1. An hypervisor to choise from KVM, Hyper-v or VirtualBox (By default KVM or Hyper-v are chosen for better performance).
 
 <br/>
 
