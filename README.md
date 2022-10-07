@@ -58,3 +58,10 @@ git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
 vagrant up
 ```
+
+### For using a specific provider (hypervisor):
+```bash
+git clone git@github.com:MauroSoli/kubernetes-vagrant.git
+cd ./kubernetes-vagrant
+vagrant up --provider=libvirt
+```
