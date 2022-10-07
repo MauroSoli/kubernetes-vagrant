@@ -63,5 +63,5 @@ vagrant up
 ```bash
 git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
-vagrant up --provider=libvirt
+vagrant up --provider=vmware_fusion
 ```
