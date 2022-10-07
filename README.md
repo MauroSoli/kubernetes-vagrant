@@ -4,7 +4,7 @@ The goal of this project is provisioning a Kubernetes Cluster, following all the
 
 <br/>
 
-You can specify the number of desired nodes modifying some variables on the first section of VagrantFile ( NUM_MASTER_NODE, NUM_WORKER_NODE, NUM_ETCD_NODE )
+You can specify the number of desired nodes modifying some variables on the first section of VagrantFile (NUM_MASTER_NODE, NUM_WORKER_NODE, NUM_ETCD_NODE)
 
 
 >Certificates must be present on ./certificate folder. <br/>
