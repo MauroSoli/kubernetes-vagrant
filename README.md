@@ -1,11 +1,11 @@
 # Kubernetes provisioning with Vagrant
 
-The goal of this project is provisioning locally a Kubernetes Cluster, following all the best practies specified in kubernetes.io docs (at least 2 master node, 2 worker node and 3 external etcd cluster). Anyway you can choose a lower number of master and worker nodes.
+The goal of this project is provisioning locally a Kubernetes Cluster, following all the best practies specified in kubernetes.io docs (at least 2 master nodes, 2 worker nodes and 3 external etcd clusters). Anyway you can choose a lower number of master and worker nodes.
 
 <br/>
 
-## How managing the desire state
-You can specify the number of desired nodes and desired ammount of CPU,RAM for each nodes, modifying some variables on the first section of the VagrantFile (NUM_MASTER_NODE, NUM_WORKER_NODE, NUM_ETCD_NODE):
+## How managing the desired state
+You can specify the number of desired nodes and desired amount of CPU and RAM for each nodes, modifying some variables on the first section of the VagrantFile (NUM_MASTER_NODE, NUM_WORKER_NODE, NUM_ETCD_NODE):
 
 <br/>
 
@@ -47,7 +47,7 @@ ETCD_RAM     = 1024
 1. Vagrant software https://www.vagrantup.com/
 1. At least 10GB of RAM (using default variables value).
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-1. An hypervisor to choise from KVM, Hyper-v or VirtualBox (Using KVM or Hyper-v for better performance).
+1. Pick your favourite hypervisor between KVM, Hyper-v and VirtualBox (Use KVM or Hyper-v for better performance).
 
 <br/>
 
