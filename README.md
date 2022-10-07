@@ -4,7 +4,7 @@ The goal of this project is provisioning locally a Kubernetes Cluster, following
 
 <br/>
 
-## How managing the desired state
+## How to manage the desired state
 You can specify the number of desired nodes and desired amount of CPU and RAM for each nodes, modifying some variables on the first section of the VagrantFile (NUM_MASTER_NODE, NUM_WORKER_NODE, NUM_ETCD_NODE):
 
 <br/>
