@@ -47,6 +47,7 @@ ETCD_RAM     = 1024
 1. Vagrant software https://www.vagrantup.com/
 1. At least 10GB of RAM (using default variables value).
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
 1. Pick your favourite hypervisor between KVM, Hyper-v and VirtualBox (Use KVM or Hyper-v for better performance).
 
 <br/>
@@ -57,4 +58,11 @@ For detail about minium requirements in Kubernetes see https://kubernetes.io/doc
 git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
 vagrant up
+```
+
+### For using a specific provider (hypervisor):
+```bash
+git clone git@github.com:MauroSoli/kubernetes-vagrant.git
+cd ./kubernetes-vagrant
+vagrant up --provider=vmware_fusion
 ```
