@@ -48,7 +48,8 @@ ETCD_RAM     = 1024
 1. At least 10GB of RAM (using default variables value).
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
-1. Pick your favourite hypervisor between KVM, Hyper-v, Vmware or VirtualBox (Use KVM or Hyper-v for better performance).
+1. Pick your favourite hypervisor between KVM, Hyper-v, VMware or VirtualBox (Use KVM or Hyper-v for better performance).
+VMware and VirtualBox **are not tested yet**.
 
 <br/>
 
