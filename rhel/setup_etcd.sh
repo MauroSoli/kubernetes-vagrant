@@ -4,11 +4,6 @@
 IP_NW=$1
 ETCD_IP_START=$2
 
-####TODELETE
-IP_NW="192.168.56."
-ETCD_IP_START=10
-############
-
 # Copy custom certificates
 mkdir -pv /etc/kubernetes/pki/etcd
 cp -v /vagrant/certificates/ca.*                    /etc/kubernetes/pki/
