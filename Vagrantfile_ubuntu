@@ -2,7 +2,6 @@
 # vi:set ft=ruby sw=2 ts=2 sts=2:
 
 # Define the number of master and worker nodes
-# If this number is changed, remember to update setup-hosts.sh script with the new hosts IP details in /etc/hosts of each VM.
 NUM_MASTER_NODE = 2
 NUM_WORKER_NODE = 2
 NUM_ETCD_NODE = 3 # Currently it cannot be changed
@@ -99,12 +98,12 @@ Vagrant.configure("2") do |config|
     node.vm.hostname = "kubebalancer01"
     node.vm.network :private_network, ip: IP_NW + "#{BALANCER_IP_START}"
     node.vm.network "forwarded_port", guest: 22, host: 2740
-    node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
+    node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/setup-hosts.sh" do |s|
       s.args = [IP_NW]
     end
-    node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
+    node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
     # Only Loadbalancer
-    node.vm.provision "setup-haproxy", type: "shell", :path => "rhel/setup_haproxy.sh"
+    node.vm.provision "setup-haproxy", type: "shell", :path => "ubuntu/setup_haproxy.sh"
   end
 
   # Provision ETCD Nodes
@@ -140,14 +139,14 @@ Vagrant.configure("2") do |config|
         node.vm.hostname = "etcdnode0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
         node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
-        node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
+        node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
-        node.vm.provision "setup-container-daemon", :type => "shell", :path => "rhel/setup_container_deamon.sh"
-        node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
-        node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
+        node.vm.provision "setup-container-daemon", :type => "shell", :path => "ubuntu/setup_container_deamon.sh"
+        node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
+        node.vm.provision "setup-k8s-components", :type => "shell", :path => "ubuntu/setup_k8s_components.sh"
         # Only ETCDNode
-        node.vm.provision "setup-etcd", :type => "shell", :path => "rhel/setup_etcd.sh" do |s|
+        node.vm.provision "setup-etcd", :type => "shell", :path => "shared/setup_etcd.sh" do |s|
           s.args = [IP_NW, ETCD_IP_START]
         end
     end
@@ -186,14 +185,14 @@ Vagrant.configure("2") do |config|
         node.vm.hostname = "kubemaster0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
         node.vm.network "forwarded_port", guest: 22, host: "#{2710 + i}"
-        node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
+        node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
-        node.vm.provision "setup-container-daemon", :type => "shell", :path => "rhel/setup_container_deamon.sh"
-        node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
-        node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
+        node.vm.provision "setup-container-daemon", :type => "shell", :path => "ubuntu/setup_container_deamon.sh"
+        node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
+        node.vm.provision "setup-k8s-components", :type => "shell", :path => "ubuntu/setup_k8s_components.sh"
         # Only MasterNode
-        node.vm.provision "setup-k8s-controlplane", :type => "shell", :path => "rhel/setup_k8s_controlplane.sh" do |s|
+        node.vm.provision "setup-k8s-controlplane", :type => "shell", :path => "ubuntu/setup_k8s_controlplane.sh" do |s|
           s.args = [IP_NW, TOKEN, CERT_KEY]
         end
       end
@@ -232,14 +231,14 @@ Vagrant.configure("2") do |config|
         node.vm.hostname = "kubeworker0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
         node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
-        node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
+        node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
-        node.vm.provision "setup-container-daemon", :type => "shell", :path => "rhel/setup_container_deamon.sh"
-        node.vm.provision "setup-dns", type: "shell", :path => "rhel/update-dns.sh"
-        node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
+        node.vm.provision "setup-container-daemon", :type => "shell", :path => "ubuntu/setup_container_deamon.sh"
+        node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
+        node.vm.provision "setup-k8s-components", :type => "shell", :path => "ubuntu/setup_k8s_components.sh"
         # Only WorkerNode
-        node.vm.provision "setup-k8s-workernode", :type => "shell", :path => "rhel/setup_k8s_workernode.sh" do |s|
+        node.vm.provision "setup-k8s-workernode", :type => "shell", :path => "ubuntu/setup_k8s_workernode.sh" do |s|
           s.args = [TOKEN, CERT_KEY]
         end
     end

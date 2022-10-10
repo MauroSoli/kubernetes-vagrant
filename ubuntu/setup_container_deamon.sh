@@ -21,27 +21,16 @@ EOF
 sudo sysctl --system
 
 # cri-o installation
-export VERSION=1.21
-curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo
-curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/CentOS_8/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo
-yum install -y cri-o
+OS=xUbuntu_20.04
+CRIO_VERSION=1.23
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | \
+sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$CRIO_VERSION/$OS/ /" | \
+sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$CRIO_VERSION.list
+
+sudo apt update -y
+sudo apt install cri-o cri-o-runc -y
 
 sudo systemctl enable --now cri-o
-
-## containerd installation
-#sudo yum install -y yum-utils
-#sudo yum-config-manager \
-#   --add-repo \
-#   https://download.docker.com/linux/centos/docker-ce.repo
-#sudo yum install -y containerd.io
-
-## config.toml configuration
-#sudo sed -E 's,\"cri\",,g' -i /etc/containerd/config.toml
-#cat <<EOF | sudo tee -a /etc/containerd/config.toml
-#
-#version = 2
-#[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-#  SystemdCgroup = true
-#EOF
 
 

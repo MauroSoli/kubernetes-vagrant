@@ -51,6 +51,3 @@ systemctl disable --now firewalld
 echo IP_NW="$IP_NW" | sudo tee -a /etc/environment
 source /etc/environment
 
-# Install wget
-yum install wget -y
-

@@ -27,21 +27,3 @@ curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo
 yum install -y cri-o
 
 sudo systemctl enable --now cri-o
-
-## containerd installation
-#sudo yum install -y yum-utils
-#sudo yum-config-manager \
-#   --add-repo \
-#   https://download.docker.com/linux/centos/docker-ce.repo
-#sudo yum install -y containerd.io
-
-## config.toml configuration
-#sudo sed -E 's,\"cri\",,g' -i /etc/containerd/config.toml
-#cat <<EOF | sudo tee -a /etc/containerd/config.toml
-#
-#version = 2
-#[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-#  SystemdCgroup = true
-#EOF
-
-

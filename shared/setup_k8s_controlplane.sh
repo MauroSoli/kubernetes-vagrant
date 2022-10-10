@@ -47,7 +47,6 @@ networking:
 EOF
     
     # Waiting etcd servers to be online
-    yum install -y nc
     while true
     do
 

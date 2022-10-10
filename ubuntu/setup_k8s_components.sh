@@ -7,17 +7,15 @@ awk '{if ($0 ~ swap) {print "#"$0 } else {print}}' /etc/fstab  > /tmp/fstab && m
 swapoff -a
 
 # kubelet kubeadm and kubectl installation
-cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-exclude=kubelet kubeadm kubectl
-EOF
+sudo apt -y install curl apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
-sudo yum install -y kubelet kubeadm kubectl iproute-tc --disableexcludes=kubernetes
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | \
+sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt update
+sudo apt -y install vim git curl wget kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
 
 # cgroups driver kubelet config
 sudo mkdir -p /var/lib/kubelet/
