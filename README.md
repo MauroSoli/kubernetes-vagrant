@@ -58,12 +58,15 @@ VMware and VirtualBox **are not tested yet**.
 ```bash
 git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
-vagrant up
+vagrant up --parallel
 ```
 
 ### For using a specific provider (hypervisor):
 ```bash
 git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
-vagrant up --provider=vmware_desktop
+vagrant up --provider vmware_desktop
 ```
+
+### Look out: if you use Virtualbox on Windows, you should **temporarily** disable UAC
+https://github.com/oracle/vagrant-projects/issues/288
