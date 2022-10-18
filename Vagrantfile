@@ -82,6 +82,7 @@ Vagrant.configure("2") do |config|
     # Hyper-v section
     node.vm.provider "hyperv" do |hv|
       hv.vmname = "kubebalancer01"
+      hv.memory = BALANCER_RAM
       hv.maxmemory = BALANCER_RAM
       hv.cpus = BALANCER_CPU
     end
@@ -123,6 +124,7 @@ Vagrant.configure("2") do |config|
         # Hyper-v section
         node.vm.provider "hyperv" do |hv|
           hv.vmname = "etcdnode0#{i}"
+          hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
         end
@@ -169,6 +171,7 @@ Vagrant.configure("2") do |config|
         # Hyper-v section
         node.vm.provider "hyperv" do |hv|
           hv.vmname = "kubemaster0#{i}"
+          hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
         end
@@ -215,6 +218,7 @@ Vagrant.configure("2") do |config|
         # Hyper-v section
         node.vm.provider "hyperv" do |hv|
           hv.vmname = "kubenode0#{i}"
+          hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
         end
