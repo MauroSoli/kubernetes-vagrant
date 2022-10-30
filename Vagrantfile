@@ -100,7 +100,7 @@ Vagrant.configure("2") do |config|
     end
     node.vm.hostname = "kubebalancer01"
     node.vm.network :private_network, ip: IP_NW + "#{BALANCER_IP_START}"
-    node.vm.network "forwarded_port", guest: 22, host: 2740
+    node.vm.network "forwarded_port", guest: 22, host: "#{2700 + BALANCER_IP_START}"
     node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
       s.args = [IP_NW]
     end
@@ -142,7 +142,7 @@ Vagrant.configure("2") do |config|
         end
         node.vm.hostname = "etcdnode0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{ETCD_IP_START + i}"
-        node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+        node.vm.network "forwarded_port", guest: 22, host: "#{2700 + ETCD_IP_START + i}"
         node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
@@ -189,7 +189,7 @@ Vagrant.configure("2") do |config|
         end
         node.vm.hostname = "kubemaster0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
-        node.vm.network "forwarded_port", guest: 22, host: "#{2710 + i}"
+        node.vm.network "forwarded_port", guest: 22, host: "#{2700 + MASTER_IP_START + i}"
         node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
@@ -236,7 +236,7 @@ Vagrant.configure("2") do |config|
         end
         node.vm.hostname = "kubeworker0#{i}"
         node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
-        node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+        node.vm.network "forwarded_port", guest: 22, host: "#{2700 + NODE_IP_START + i}"
         node.vm.provision "setup-hosts", :type => "shell", :path => "rhel/setup-hosts.sh" do |s|
           s.args = [IP_NW]
         end
