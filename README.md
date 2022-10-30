@@ -49,7 +49,7 @@ ETCD_RAM     = 1024
 For detail about minium requirements in Kubernetes see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 1. Pick your favourite hypervisor between KVM, Hyper-v, VMware or VirtualBox (Use KVM or Hyper-v for better performance).
-VMware and VirtualBox **are not tested yet**.
+VMware **are not tested yet**.
 
 <br/>
 
@@ -65,8 +65,12 @@ vagrant up --parallel
 ```bash
 git clone git@github.com:MauroSoli/kubernetes-vagrant.git
 cd ./kubernetes-vagrant
-vagrant up --provider vmware_desktop
+vagrant up --provider virtualbox --parallel
 ```
 
 ### Look out: if you use Virtualbox on Windows, you should **temporarily** disable UAC
 https://github.com/oracle/vagrant-projects/issues/288
+
+
+## Test K8S Cluster
+
