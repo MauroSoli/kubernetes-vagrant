@@ -68,6 +68,15 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
+  # If you running on hyper-v --> virtual switch configuration    
+  ##system("
+  ##if [ #{ARGV[0]} = 'up' ||  ]; then
+  ##  echo 'You are doing vagrant up and can execute your script'
+  ##      ./myscript.sh
+  ##  
+  ##  fi
+  ##")
+
   # Provision Load balancer
   config.vm.define "kubebalancer01" do |node|
     # KVM Section
@@ -85,6 +94,8 @@ Vagrant.configure("2") do |config|
       hv.memory = BALANCER_RAM
       hv.maxmemory = BALANCER_RAM
       hv.cpus = BALANCER_CPU
+      hv.enable_virtualization_extensions = true
+      hv.linked_clone = true
     end
     # VMware section
     node.vm.provider "vmware_desktop" do |hv|
@@ -127,6 +138,8 @@ Vagrant.configure("2") do |config|
           hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
+          hv.enable_virtualization_extensions = true
+          hv.linked_clone = true
         end
         # VMware section
         node.vm.provider "vmware_desktop" do |hv|
@@ -174,6 +187,8 @@ Vagrant.configure("2") do |config|
           hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
+          hv.enable_virtualization_extensions = true
+          hv.linked_clone = true
         end
         # VMware section
         node.vm.provider "vmware_desktop" do |hv|
@@ -221,6 +236,8 @@ Vagrant.configure("2") do |config|
           hv.memory = BALANCER_RAM
           hv.maxmemory = BALANCER_RAM
           hv.cpus = BALANCER_CPU
+          hv.enable_virtualization_extensions = true
+          hv.linked_clone = true
         end
         # VMware section
         node.vm.provider "vmware_desktop" do |hv|
@@ -245,7 +262,7 @@ Vagrant.configure("2") do |config|
         node.vm.provision "setup-k8s-components", :type => "shell", :path => "rhel/setup_k8s_components.sh"
         # Only WorkerNode
         node.vm.provision "setup-k8s-workernode", :type => "shell", :path => "rhel/setup_k8s_workernode.sh" do |s|
-          s.args = [TOKEN, CERT_KEY]
+          s.args = [TOKEN, CERT_KEY, IP_NW]
         end
     end
   end
