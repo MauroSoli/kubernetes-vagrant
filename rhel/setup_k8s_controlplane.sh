@@ -93,3 +93,6 @@ else
           --control-plane
 
 fi
+
+# Set kubeconfig
+echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' | sudo tee -a /root/.bashrc
