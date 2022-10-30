@@ -2,6 +2,10 @@
 
 TOKEN="$1"
 CERT_KEY="$2"
+IP_NW="$3"
+
+# Preparing kubemaster variable
+IP_ADDR="$(ip addr | grep $IP_NW | awk '{print $2}' | sed -E 's,\/.*,,g')"
 
 # At least one master node must running before running kubeadm join
 while true
@@ -23,4 +27,5 @@ openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1)"
 kubeadm join kubebalancer01:6443 \
       --token $TOKEN \
       --discovery-token-ca-cert-hash sha256:$CaHASH \
+      --apiserver-advertise-address:$IP_ADDR
 
