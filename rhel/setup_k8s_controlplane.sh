@@ -7,6 +7,7 @@ CERT_KEY="$3"
 # Preparing kubemaster variable
 # kubemaster = node01,node02 ... etc
 IP_ADDR="$(ip addr | grep $IP_NW | awk '{print $2}' | sed -E 's,\/.*,,g')"
+SERVICE_SUBNET="$(ip route | grep 192.168.56 | awk '{print $1}')"
 
 # if i'm master n°1 --> kubeadm init
 if [[ "$(hostname)" =~ "01" ]]; then
@@ -44,6 +45,7 @@ etcd:
     keyFile: /etc/kubernetes/pki/apiserver-etcd-client.key
 networking:
   podSubnet: "10.244.0.0/16"
+  service-cidr: "$SERVICE_SUBNET"
 EOF
     
     # Waiting etcd servers to be online
@@ -88,9 +90,7 @@ else
     # Join to K8S Cluster
     kubeadm join kubebalancer01:6443 \
           --token $TOKEN \
-          --certificate-key=$CERT_KEY \
-          --discovery-token-ca-cert-hash sha256:$CaHASH \
-          --control-plane
+          --certificate-key=$CERT_KEY # Set kubeconfig
 
 fi
 
