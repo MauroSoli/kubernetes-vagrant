@@ -70,7 +70,3 @@ vagrant up --provider virtualbox --parallel
 
 ### Look out: if you use Virtualbox on Windows, you should **temporarily** disable UAC
 https://github.com/oracle/vagrant-projects/issues/288
-
-
-## Test K8S Cluster
-
